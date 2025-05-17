@@ -3,692 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEART</title>
+    <title>Bal er Ibrahim</title>
     <style>
-        :root {
-            --primary-color: #FF69B4;
-            --secondary-color: #FF85C1;
-            --accent-color: #FF1493;
-        }
-
-        html,
         body {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #ffb6c1, #ff69b4, #ff1493, #db7093);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            overscroll-behavior: none;
-            transition: background 5s ease;
-        }
-
-        #cover-page button {
-            padding: 10px 20px;
-            background-color: #FF69B4;
-            border: none;
-            border-radius: 25px;
-            font-size: 20px;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        #cover-page button:hover {
-            background-color: #FF85C1;
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        #photo-selector {
-            padding: 12px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            background-color: #FF69B4;
+            background-color: #000;
             color: #fff;
-            width: 220px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        #photo-selector:hover {
-            background-color: #FF85C1;
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        #selector-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-top: 20px;
-            width: 100%;
-        }
-
-        #secret-button {
-            margin-top: 15px;
-            padding: 20px;
-            background-color: #FF85C1;
-            border: none;
-            border-radius: 40px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, background-color 0.3s;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #secret-button:hover {
-            background-color: #FF69B4;
-            transform: scale(1.3);
-        }
-
-        body.color-changing {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color), #db7093);
-        }
-
-        body.color-changing #cover-page button,
-        body.color-changing #photo-selector,
-        body.color-changing #secret-button,
-        body.color-changing #popup button,
-        body.color-changing #popup a.button-link,
-        body.color-changing #new-popup button,
-        body.color-changing #break-heart-button {
-            background-color: var(--primary-color);
-        }
-
-        body.color-changing #cover-page button:hover,
-        body.color-changing #photo-selector:hover,
-        body.color-changing #secret-button:hover,
-        body.color-changing #popup button:hover,
-        body.color-changing #popup a.button-link:hover,
-        body.color-changing #new-popup button:hover,
-        body.color-changing #break-heart-button:hover {
-            background-color: var(--secondary-color);
-        }
-
-        #cover-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            z-index: 10;
-            position: relative;
-        }
-
-        #cover-page h1 {
-            font-size: 36px;
-            color: white;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-        }
-
-        #photo-changer-page {
-            display: none;
-            text-align: center;
-            position: relative;
-            z-index: 20;
-        }
-
-        #title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
             font-family: Arial, sans-serif;
-            color: white;
+            overflow: hidden;
+            height: 100vh;
         }
-
-        #photo-section {
-            text-align: center;
-            margin-bottom: 20px;
+        
+        .scrolling-container {
             position: relative;
-        }
-
-        #display-photo {
-            width: 300px;
-            height: 300px;
-            transition: opacity 0.5s ease;
-            opacity: 1;
-        }
-
-        .balloon {
-            position: absolute;
-            bottom: -100px;
-            border-radius: 50%;
-            animation: floatUp 6s ease-in-out forwards;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.2));
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            opacity: 0.9;
-            z-index: 5;
-        }
-
-        .balloon::before {
-            content: "";
-            display: block;
-            animation: sway 3s ease-in-out infinite alternate;
-            width: 100%;
             height: 100%;
+            width: 100%;
         }
-
-        .balloon::after {
-            content: "";
+        
+        .scrolling-text {
             position: absolute;
-            bottom: -40px;
-            left: 50%;
-            width: 2px;
-            height: 40px;
-            background: linear-gradient(to bottom, white, transparent);
-            transform: translateX(-50%);
-            animation: swayString 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(-120vh);
-                opacity: 0;
-            }
-        }
-
-        @keyframes sway {
-            0% {
-                transform: translateX(-15px);
-            }
-
-            100% {
-                transform: translateX(15px);
-            }
-        }
-
-        @keyframes swayString {
-            0% {
-                transform: translateX(-50%) rotateZ(5deg);
-            }
-
-            100% {
-                transform: translateX(-50%) rotateZ(15deg);
-            }
-        }
-
-        .heart {
-            position: absolute;
+            width: 80%;
+            left: 10%;
             bottom: 0;
-            opacity: 0.9;
-            animation: floatHeart 3s linear infinite;
-        }
-
-        @keyframes floatHeart {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(-150vh) scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        #particles-js {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        #popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.85);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             text-align: center;
-            animation: popupFadeIn 0.5s ease-in-out;
-            z-index: 1000;
-            width: 90%;
-            max-width: 400px;
+            transform: translateY(100%);
+            animation: scroll-up 20s linear infinite;
         }
-
-        @keyframes popupFadeIn {
+        
+        @keyframes scroll-up {
             0% {
-                opacity: 0;
-                transform: translate(-50%, -60%);
+                transform: translateY(100%);
             }
-
             100% {
-                opacity: 1;
-                transform: translate(-50%, -50%);
+                transform: translateY(-100%);
             }
         }
-
-        #popup h2 {
-            font-size: 24px;
-            color: #FF69B4;
-            margin-bottom: 10px;
-        }
-
-        #popup p {
-            font-size: 18px;
-            color: #333;
-        }
-
-        #popup .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        #popup button,
-        #popup a.button-link {
-            padding: 10px 20px;
-            background-color: #FF69B4;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            flex: 1;
-            min-width: 120px;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        #popup button:hover,
-        #popup a.button-link:hover {
-            background-color: #FF85C1;
-        }
-
-        #new-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            animation: popupFadeIn 0.5s ease-in-out;
-            z-index: 1000;
-        }
-
-        #new-popup h2 {
-            font-size: 24px;
-            color: #FF69B4;
-            margin-bottom: 10px;
-        }
-
-        #new-popup p {
-            font-size: 18px;
-            color: #333;
-        }
-
-        #new-popup button {
-            padding: 10px 20px;
-            background-color: #FF69B4;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-        }
-
-        #new-popup button:hover {
-            background-color: #FF85C1;
-        }
-
-        #broken-heart {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 200px;
-            color: #ff4d6d;
-            opacity: 0;
-            display: none;
-            animation: fadeInOut 2s ease-in-out;
-            z-index: 1000;
-        }
-
-        @keyframes fadeInOut {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
+        
+        .random-size {
+            display: block;
+            margin: 0.5em 0;
         }
     </style>
 </head>
-
 <body>
-    <div id="particles-js"></div>
-
-    <div id="cover-page">
-        <div>
-            <h1>Welcome to my HEART</h1>
-            <button id="start-btn">ENTER ^.^</button>
+    <div class="scrolling-container">
+        <div class="scrolling-text">
         </div>
     </div>
-
-    <div id="photo-changer-page">
-        <div id="title">
-            <h3><b><i>Visual Representation of my heart:</i></b></h3>
-        </div>
-        <div id="photo-section">
-            <img id="display-photo" src="https://raw.githubusercontent.com/fardinnuman/HEART/refs/heads/main/photo1.jpg"
-                alt="Photo">
-        </div>
-        <div id="selector-container">
-            <select id="photo-selector" onchange="changePhoto()">
-                <option value="https://github.com/815613/nr.heart/blob/main/photo1.jpg">144p (Low
-                    quality)</option>
-                <option value="https://github.com/815613/nr.heart/blob/main/photo2.jpg">240p
-                    (Medium quality)</option>
-                <option value="https://github.com/815613/nr.heart/blob/main/photo3.jpg">720p
-                    (High quality)</option>
-                <option value="https://github.com/815613/nr.heart/blob/main/photo4.jpg">1080p
-                    (Max quality)</option>
-            </select>
-            <button id="secret-button" style="display: none;">👀</button>
-        </div>
-    </div>
-
-    <div id="popup">
-        <h4>Didn't like? Angry on me?<br>Okay here is a button below to break my heart..</h4>
-        <div class="button-container">
-            <button id="break-heart-button">BREAK 😡</button>
-            <a href="https://pookieroshni.netlify.app/" class="button-link">KEEP 🥰</a>
-        </div>
-        <p>
-        <h5><b><i>Vangis na please because 143 👉👈</i></b></h5>
-        </p>
-    </div>
-
-    <div id="broken-heart">😭💔</div>
-
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
     <script>
-        function startColorChanging() {
-            console.log("Starting color changing...");
-            document.body.classList.add('color-changing');
+        const scrollingText = document.querySelector('.scrolling-text');
+        const textContent = "Tor Ibrahim ke bolis banay dite!!!";
+        const numberOfLines = 70;
 
-            const colors = [
-                { primary: "#ff69b4", secondary: "#ff85c1", accent: "#ff1493" },
-                { primary: "#479ff5", secondary: "#479ff5", accent: "#1e90ff" },
-                { primary: "#8a2be2", secondary: "#9932cc", accent: "#9370db" },
-                { primary: "#ff69b4", secondary: "#ff85c1", accent: "#ff1493" }
-            ];
-
-            let currentIndex = 0;
-
-            function transition() {
-                document.documentElement.style.setProperty('--primary-color', colors[currentIndex].primary);
-                document.documentElement.style.setProperty('--secondary-color', colors[currentIndex].secondary);
-                document.documentElement.style.setProperty('--accent-color', colors[currentIndex].accent);
-
-                currentIndex = (currentIndex + 1) % colors.length;
-                setTimeout(transition, 2500);
-            }
-
-            transition();
-        }
-
-        function initParticles() {
-            console.log("Initializing particles...");
-            if (typeof particlesJS === 'undefined') {
-                console.error("particlesJS is not defined. Make sure the particles.js library is loaded correctly.");
-                return;
-            }
-
-            particlesJS("particles-js", {
-                particles: {
-                    number: {
-                        value: 150,
-                        density: {
-                            enable: true,
-                            value_area: 800
-                        }
-                    },
-                    size: {
-                        value: 3,
-                        random: true,
-                        anim: {
-                            enable: true,
-                            speed: 2,
-                            size_min: 0.3,
-                            sync: false
-                        }
-                    },
-                    move: {
-                        enable: true,
-                        speed: 2,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false,
-                        attract: {
-                            enable: true,
-                            rotateX: 600,
-                            rotateY: 1200
-                        }
-                    },
-                    shape: {
-                        type: "circle"
-                    },
-                    opacity: {
-                        value: 0.7,
-                        random: true,
-                        anim: {
-                            enable: true,
-                            speed: 1,
-                            opacity_min: 0.1,
-                            sync: false
-                        }
-                    },
-                    color: {
-                        value: ["#FFFFFF", "#FF69B4", "#FF85C1", "#FF1493", "#DB7093"]
-                    }
-                },
-                interactivity: {
-                    detect_on: "window",
-                    events: {
-                        onhover: {
-                            enable: true,
-                            mode: "bubble"
-                        },
-                        onclick: {
-                            enable: true,
-                            mode: "push"
-                        },
-                        resize: true
-                    },
-                    modes: {
-                        bubble: {
-                            distance: 200,
-                            size: 6,
-                            duration: 2,
-                            opacity: 0.8,
-                            speed: 3
-                        },
-                        push: {
-                            particles_nb: 4
-                        },
-                        grab: {
-                            distance: 200,
-                            line_linked: {
-                                opacity: 1
-                            }
-                        }
-                    }
-                },
-                retina_detect: true
-            });
-        }
-
-        document.getElementById("start-btn").addEventListener("click", function () {
-            console.log("Start button clicked");
-            document.getElementById("cover-page").style.display = "none";
-            document.getElementById("photo-changer-page").style.display = "block";
-            changePhoto();
-        });
-
-        function changePhoto() {
-            console.log("Changing photo...");
-            const selector = document.getElementById("photo-selector");
-            const displayPhoto = document.getElementById("display-photo");
-            const secretButton = document.getElementById("secret-button");
-
-            if (!selector || !displayPhoto || !secretButton) {
-                console.error("One or more elements not found: selector, displayPhoto, or secretButton");
-                return;
-            }
-
-            displayPhoto.style.opacity = 0;
-
-            setTimeout(function () {
-                displayPhoto.src = selector.value;
-                displayPhoto.style.opacity = 1;
-
-                if (selector.value.includes("photo4.jpg")) {
-                    console.log("1080p selected, showing secret button and creating balloons/hearts");
-                    createBalloons();
-                    createHearts();
-                    secretButton.style.display = "flex";
-                } else {
-                    console.log("Non-1080p selected, hiding secret button");
-                    secretButton.style.display = "none";
-                }
-            }, 500);
-        }
-
-        function createBalloons() {
-            console.log("Creating balloons...");
-            for (let i = 0; i < 24; i++) {
-                let balloon = document.createElement('div');
-                balloon.classList.add('balloon');
-                balloon.style.left = `${Math.random() * 100}vw`;
-
-                let balloonSize = Math.random() * 60 + 40;
-                balloon.style.width = `${balloonSize}px`;
-                balloon.style.height = `${balloonSize * 1.2}px`;
-
-                let duration = Math.random() * 2 + 5;
-                balloon.style.animation = `floatUp ${duration}s ease-in-out forwards`;
-                balloon.style.backgroundColor = getRandomColor();
-                balloon.style.zIndex = Math.floor(Math.random() * 10);
-
-                document.body.appendChild(balloon);
-
-                setTimeout(() => balloon.remove(), duration * 1000);
-            }
-        }
-
-        function createHearts() {
-            console.log("Creating hearts...");
-            for (let i = 0; i < 20; i++) {
-                let heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.innerHTML = '❤️🎀';
-
-                let heartSize = Math.random() * 25 + 15;
-                heart.style.fontSize = `${heartSize}px`;
-
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.animationDuration = `${Math.random() * 1 + 3}s`;
-                document.body.appendChild(heart);
-            }
-        }
-
+        const vibrantColors = [
+            '#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE',
+            '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE',
+            '#B2FF59', '#EEFF41', '#FFFF00', '#FFD740', '#FFAB40',
+            '#FF6E40', '#FF3D00', '#FF1744', '#F50057', '#D500F9'
+        ];
+        
         function getRandomColor() {
-            const colors = [
-                'rgba(255, 105, 180, 0.8)',
-                'rgba(255, 20, 147, 0.8)',
-                'rgba(138, 43, 226, 0.8)',
-                'rgba(70, 130, 180, 0.8)',
-                'rgba(255, 182, 193, 0.8)',
-                'rgba(255, 99, 71, 0.8)',
-                'rgba(127, 255, 212, 0.8)'
-            ];
-            return colors[Math.floor(Math.random() * colors.length)];
+            if (Math.random() > 0.5) {
+                return vibrantColors[Math.floor(Math.random() * vibrantColors.length)];
+            } else {
+                
+                const hue = Math.floor(Math.random() * 360);
+                const saturation = 80 + Math.floor(Math.random() * 20); 
+                const lightness = 50 + Math.floor(Math.random() * 30); 
+                return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            }
         }
+        
+        for (let i = 0; i < numberOfLines; i++) {
+            const p = document.createElement('p');
+            p.className = 'random-size';
+            p.textContent = textContent;
 
-        document.getElementById("secret-button").addEventListener("click", function () {
-            console.log("Secret button clicked");
-            document.getElementById("popup").style.display = "block";
-        });
+            const randomSize = (Math.random() * 2.7 + 0.8).toFixed(2);
+            p.style.fontSize = `${randomSize}em`;
 
-        document.getElementById("break-heart-button").addEventListener("click", function () {
-            console.log("Break heart button clicked");
-            document.getElementById("popup").style.display = "none";
-
-            const brokenHeart = document.getElementById("broken-heart");
-            brokenHeart.style.display = "block";
-            brokenHeart.style.opacity = "1";
-
-            setTimeout(() => {
-                brokenHeart.style.display = "none";
-            }, 2000);
-        });
-
-        document.addEventListener('touchmove', function (e) {
-            e.preventDefault();
-        }, { passive: false });
-
-        window.onload = function () {
-            console.log("Window loaded, initializing...");
-            initParticles();
-            startColorChanging();
-        };
+            p.style.color = getRandomColor();
+            
+            scrollingText.appendChild(p);
+        }
     </script>
 </body>
 </html>
